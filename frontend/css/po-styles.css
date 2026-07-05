@@ -1,0 +1,662 @@
+
+/* =========================================================
+   1. GOOGLE FONTS & RESET
+========================================================= */
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600&family=Roboto:wght@400;500&display=swap");
+
+
+:root {
+    --primary: #bd0000;
+    --primary-dark: #9a0000;
+    --secondary: #2e0505;
+
+    --success: #28a745;
+    --surface: #ffffff;
+
+    --accent: var(--success);
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Crucial for preventing padding from breaking the layout */
+}
+
+@supports (height: 100dvh) {
+    body {
+        min-height: 100dvh;
+    }
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4 ;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the phone frame on desktop */
+    padding: 0;
+}
+
+/* =========================================================
+   2. THE HYBRID APP FRAME (Responsive Engine)
+========================================================= */
+
+/* DEFAULT FOR MOBILE PHONES: Takes up the absolute full screen */
+.main-frame {
+    width: 100%;
+    height: auto;             /* Fills the absolute mobile height */
+    background: #ffffff;
+    border: none;              /* No borders on a native mobile phone screen */
+    border-radius: 0;          /* Clean flat design edge for phones */
+    box-shadow: none;          /* Removes heavy desktop shadow engine */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden; 
+    scrollbar-width: none;
+}
+
+/* LAPTOPS & DESKTOP MONITORS: Scales into a simulated phone mockup box */
+@media (min-width: 768px) {
+    body {
+        display: grid;         /* Grid engine centers the frame on laptop monitors */
+        place-items: center;
+        padding: 40px 0;
+    }
+
+    .main-frame {
+        max-width: 420px;      /* Locks the frame width tightly on laptops */
+        height: 85vh;          /* Caps the vertical height inside browser windows */
+        max-height: 850px;     /* Prevents stretching on ultra-tall screens */
+        border: 4px solid var(--secondary); /* Clean phone outline bezel effect */
+        border-radius: 32px;   /* Beautiful rounded corner look for laptops */
+        box-shadow: 0 15px 40px rgba(0,0,0,0.18); /* Floating canvas shadow depth */
+    }
+}
+
+/* Base structural layout for your internal content sections */
+main {
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+    min-height: 100%;
+}
+
+main::-webkit-scrollbar {
+    display: none;
+}
+
+@media(min-width : 768px){
+    main{
+        max-width: 420px;
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
+
+/* =========================================================
+   3. LOGIN INTERFACE
+========================================================= */
+.login-header {
+    background: #825b5b;
+    color: white;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+#login-section {
+    width:100%;
+    max-width: 400px;
+    margin: 0;
+    padding: 2px;
+  background-color: #ffffff;
+  /* border-radius: 6px; */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.image-container {
+    width: 100%;
+    margin-bottom: auto;
+    z-index: 2;
+}
+
+.postman-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.login-card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Diagonal Background Effect for Login Card */
+.login-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top left, rgba(189,0,0,0.15), transparent 70%);
+    opacity: 1;
+    z-index: 0;
+}
+
+.login-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.login-card h1 {
+    text-align: center;
+    font-style: italic;
+    color: rgb(85, 9, 51);
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.login-card h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: lighter;
+    font-size: 0.9rem;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #444;
+    font-size: 0.85rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.btn-login {
+    background-color: var(--primary);
+    color: white;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-login:hover {
+    background-color: var(--primary-dark);
+}
+
+.forgot-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #666;
+    text-decoration: none;
+}
+
+.login-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+}
+
+.login-footer {
+    padding: 5px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #212529;
+    font-style: italic;
+    font-weight: bolder;
+    margin-top:0;
+}
+/* =========================================================
+   4. NAVIGATION BAR (Absolute Frame Sticky Base)
+========================================================= */
+#nav-shell {
+    position: absolute; 
+    bottom: 0;
+    left: 0;   
+    width: 100%;
+    z-index: 1000;
+    background: white;
+    border-top: 2px solid var(--primary); 
+    padding: 0;
+}
+
+.navbar {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-container {
+    display: flex;
+    width: 100%;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    margin: 0; 
+    padding: 0;
+    justify-content: space-around;
+}
+
+.nav-link {
+    color: #7a6e6e; /* Shaded default color for non-active states */
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    position: relative; /* Setup anchor point for the active bar indicator */
+    transition: color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 12px 10px 14px 10px;
+    flex: 1; /* Symmetrical hit space across screens */
+}
+
+.nav-link i {
+    font-size: 1.4rem;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Hover & Active Transformations Combined */
+.nav-link:hover i,
+.nav-link.active i {
+    transform: translateY(-2px); /* Slight icon lift */
+}
+
+.nav-link:hover {
+    color: #22887a; /* Deep blue highlight on hover */
+}
+
+/* =========================================================
+   NEW: DYNAMIC ACTIVE TAB STYLING 
+========================================================= */
+.nav-link.active {
+    color: #ed4040 !important; /* Official India Post Red for active element */
+    font-weight: 600;
+}
+
+/* Animated subtle line indicator beneath the active navigation tab */
+.nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 24px;
+    height: 3px;
+    background-color: #bd0000;
+    border-radius: 4px;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.nav-link.active::after {
+    transform: translateX(-50%) scaleX(1); /* Smoothly slides bar open when tab is selected */
+}
+
+
+/* =========================================================
+   5. UIVERSE BUTTONS (Dashboard Navigation)
+========================================================= */
+.nav-button {
+    padding: 14px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 0;
+    background-color: white;
+    box-shadow: rgba(0 0 0 / 0.05) 0 0 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: bold;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: #bd0000;
+}
+
+.nav-button:hover {
+    letter-spacing: 2px;
+    background-color: #bd0000;
+    color: white;
+    box-shadow: rgba(189, 0, 0, 0.4) 0px 7px 29px 0px; /* Branded glow effect */
+}
+
+.nav-button:active {
+     transform: scale(0.97) translateY(2px);
+    transition: 100ms;
+}
+
+/* =========================================================
+   6. DASHBOARD & PROFILE
+========================================================= */
+.dashboard-header {
+    background: #2e0505;
+    color: #ffffff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.dashboard-header h1, .dashboard-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+#profilePopup {
+    position: fixed;
+    top: 70px;
+    right: 15px;
+    width: 260px;
+    background: white;
+    border: 2px solid #bd0000;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    padding: 20px;
+    z-index: 2000;
+    display: none;
+}
+
+.welcome-box {
+    margin-bottom: 5px;
+    padding:30px;
+    color: white;
+    background-color: #566a7e; 
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    text-align: center;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5); /* Improves text readability over images */
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Advanced responsive fluid grid */
+    gap: 15px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+ /* BOX HERO SECTION */
+.hero-section {
+    width: 100vw;
+    height: auto; /* FIXED: Removed min-height: 250px so it only takes the space it needs */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px 1px; /* FIXED: Shrunk outer padding */
+    margin-bottom: 15px;
+}
+
+.hero-overlay {
+    background: rgba(30, 41, 59, 0.85);
+    padding: 15px; /* FIXED: Reduced from 20px */
+    border-radius: 15px;
+    backdrop-filter: blur(8px);
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* FIXED: Tighter spacing between TOTAL box and the 3 bottom boxes */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* TOP LONG BOX (TOTAL) */
+.hero-long-box {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 10px 20px; /* FIXED: Reduced padding to save height */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: 1.2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffffff;
+}
+
+.hero-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* BOTTOM 3 BOXES GRID */
+.hero-3-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.hero-mini-box {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 10px 5px; /* FIXED: Hugs the text much closer now */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.mini-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.mini-number {
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+/* =========================================================
+   7. ACKNOWLEDGE & DELIVERY CARDS
+========================================================= */
+.stat-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+}
+
+.stat-card span {
+    color: #bd0000;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.ack-summary, .stats-grid, .delivery-summary, .submit-acct {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.delivery-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.delivery-card {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-left: 5px solid var(--primary);
+    transition: all 0.3s ease;
+}
+
+.delivery-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(189, 0, 0, 0.15); /* Lift effect on hover */
+}
+
+.delivery-card h4 {
+    color: #bd0000;
+    margin-bottom: 5px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Dynamic Status Indicator Borders */
+.delivery-card.delivered { border-left-color: #28a745; }
+.delivery-card.returned { border-left-color: #dc3545; }
+
+.section-title {
+    color: #bd0000;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+
+/* =========================================================
+   8. TRACKING SECTION TIMELINE
+========================================================= */
+.tracking-search {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.timeline {
+    margin: 25px 0;
+    position: relative;
+}
+
+/* Creates the vertical line behind the tracking dots */
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 10px;
+    bottom: 10px;
+    width: 4px;
+    background: #ddd;
+    border-radius: 2px;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.timeline-dot {
+    width: 24px;
+    height: 24px;
+    background: #28a745;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.tracking-detail {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+/* ===============================
+   9. SUPPORT POP UP
+================================= */
+.support-popup .popup-content {
+    width: 100%;
+    height: 100%;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ==========================================
+   NETWORK STATUS BANNER
+========================================== */
+
+.network-status {
+    position: fixed;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #28a745;
+    /* color: white; */
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    z-index: 5000;
+    transition: top 0.4s cubic-bezier(0.95, 0, 0.58, 1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.network-status.show {
+    top: 20px;
+}
