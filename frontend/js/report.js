@@ -1,10 +1,8 @@
 // ==========================================
-// report.js — Report Module (Phase 6 - Analytics & EOD)
+// report.js — Report Module 
 // Generates EOD stats securely from IndexedDB.
-// Features O(N) single-pass scanning, strict type-safety, and Safe CSV Export.
 // ==========================================
 
-// Module-scoped variable to hold pending count for submission validation
 let currentPendingCount = 0;
 
 async function generateReport() {
@@ -69,7 +67,6 @@ async function generateReport() {
             reportGrid.appendChild(card);
         });
 
-        // ✅ ISO TIMESTAMP FIX (IMPORTANT)
         const isoTime = new Date().toISOString().split("T")[0]; 
         const readableTime = new Date().toISOString();
 
@@ -82,7 +79,6 @@ async function generateReport() {
         timeStampEl.innerText = `Report generated locally at: ${readableTime}`;
         reportGrid.appendChild(timeStampEl);
 
-        // store ISO date for export safety
         reportGrid.dataset.isoDate = isoTime;
 
     } catch (error) {
@@ -131,7 +127,6 @@ async function exportToCSV() {
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
 
-        // ✅ FIXED: ISO SAFE FILE NAME (NO LOCALE BUGS)
         link.setAttribute("download", `EOD_Delivery_Report_${isoDate}.csv`);
 
         document.body.appendChild(link);

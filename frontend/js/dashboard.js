@@ -1,10 +1,10 @@
 // ==========================================
 // dashboard.js 
 // ==========================================
-let isDashboardInitialized = false; // <-- The Guard Variable
+let isDashboardInitialized = false; 
 
 function initDashboard() {
-    if (isDashboardInitialized) return; // <-- Prevents duplicate listeners
+    if (isDashboardInitialized) return; 
     isDashboardInitialized = true;
 
     const profileIcon = document.getElementById('profileIcon');
@@ -96,7 +96,7 @@ async function updateDashboardStats() {
         if (deliveredEl) deliveredEl.innerText = deliveredCount;
         if (percentageEl) percentageEl.innerText = successRate + "%";
 
-          // 4. Update the dashboard homepage hero boxes
+       
         const heroTotalEl = document.getElementById('hero-total-count');
         const heroPendingEl = document.getElementById('hero-pending-count');
         const heroDeliveredEl = document.getElementById('hero-delivered-count');

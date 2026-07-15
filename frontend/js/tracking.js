@@ -9,11 +9,10 @@
 async function searchTracking() {
     const trackingInput = document.getElementById('trackingInput');
     const trackingResult = document.getElementById('trackingResult');
-    const searchBtn = document.getElementById('searchTrackingBtn'); // Ensure your HTML button has this ID
+    const searchBtn = document.getElementById('searchTrackingBtn'); 
 
     if (!trackingInput || !trackingResult) return;
 
-    // Normalize the searched ID by removing accidental spaces
     const articleId = trackingInput.value
         .trim()
         .replace(/\s+/g, "")
@@ -24,32 +23,26 @@ async function searchTracking() {
         return;
     }
 
-    // Prevent accidental double-click searches
     if (searchBtn) {
         searchBtn.disabled = true;
     }
 
-    // Show loading state
     trackingResult.innerHTML = '<p style="text-align:center; color:#555;">Searching secure local database...</p>';
     trackingResult.style.display = 'block';
 
     try {
-        // Fast lookup using getArticleById() from IndexedDB
         const article = await window.getArticleById(articleId);
 
         if (article) {
             displayTrackingResult(article, trackingResult);
-            // Clear the input field for a cleaner UX
             trackingInput.value = "";
         } else {
-            // Show the user exactly what ID failed
             trackingResult.innerHTML = `<p style="color:red; text-align:center; font-weight:bold;">❌ No article found for: ${articleId}</p>`;
         }
     } catch (error) {
         console.error("Error searching article:", error);
         trackingResult.innerHTML = '<p style="color:red; text-align:center;">Database error occurred.</p>';
     } finally {
-        // Re-enable the button safely after the query finishes
         if (searchBtn) {
             searchBtn.disabled = false;
         }
@@ -128,7 +121,6 @@ function displayTrackingResult(article, resultDiv) {
     resultDiv.innerHTML = html;
 }
 
-// Auto-search on "Enter" key press
 function initTracking() {
     const input = document.getElementById("trackingInput");
     

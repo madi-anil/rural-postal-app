@@ -11,7 +11,6 @@ function seedDatabase() {
 
         console.log(" Database is empty. Injecting 5 dummy articles...");
 
-        // Keys use camelCase to match the frontend
         const dummyArticles = [
             {
                 id: "RP1001IN",

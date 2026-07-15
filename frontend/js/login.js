@@ -5,7 +5,7 @@
 // 1. Mock Database for Auth
 const POSTMEN = [
     // { id: "791120", password: "Password@123", name: "Ramesh Kumar", office: "KL University PO" },
-    { id: "123456", password: "123", name: "Demo Postman", office: "Rural Branch PO" } // Demo credentials only — not for production use
+    { id: "123456", password: "123", name: "Demo Postman", office: "Rural Branch PO" } // Demo credentials only 
 ];
 
 function initLogin() {
@@ -16,16 +16,13 @@ function initLogin() {
         return;
     }
 
-    // ADVANCED FEATURE: Auto-Login if session exists
     const savedSession = localStorage.getItem('indiaPostSession');
     if (savedSession) {
         let staff;
-        // Guard against corrupted session data
         try {
             staff = JSON.parse(savedSession);
             console.log('⚡ Active session found. Auto-logging in:', staff.name);
             updateDashboardUI(staff);
-            // await loadArticlesFromBackend();
             window.showSection('dashboard');
             return;
         } catch (e) {
@@ -38,7 +35,6 @@ function initLogin() {
     loginForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        // UI Feedback: Simulate loading state
         const btn = document.getElementById('loginBtn');
         const originalBtnText = btn.innerText;
         btn.innerText = "Authenticating...";
@@ -48,7 +44,7 @@ function initLogin() {
         const password = document.getElementById('password').value.trim();
 
         // 2. ADVANCED SECURITY: Regular Expression (Regex) Validation
-        const idRegex = /^\d{6}$/; // Forces exactly 6 numbers
+        const idRegex = /^\d{6}$/; // user id Forces exactly 6 numbers
 
         if (!employeeId || !password) {
             alert('⚠️ Security Check: Please enter both User ID and Password.');
@@ -83,15 +79,12 @@ function initLogin() {
 
         window.showSection('dashboard');
         
-        // Clear the form inputs after a successful login
         loginForm.reset();
 
-        // Reset button state in case they logout later
         resetBtn(btn, originalBtnText);
     });
 }
 
-// Helper: Resets the login button
 function resetBtn(btn, text) {
     if(btn) {
         btn.innerText = text;
@@ -99,7 +92,6 @@ function resetBtn(btn, text) {
     }
 }
 
-// Helper: Updates the Dashboard profile text
 function updateDashboardUI(staff) {
     const nameDisplay = document.getElementById('user-name-display');
     if (nameDisplay) nameDisplay.textContent = staff.name;
@@ -131,9 +123,8 @@ async function loadArticlesFromBackend() {
         
         console.log(`✅ Received ${result.data.length} articles from backend`);
         
-        // Save each article to IndexedDB
+        // Save  article to IndexedDB
         for (const article of result.data) {
-            // Add timestamps if missing
             if (!article.client_timestamp) {
                 article.client_timestamp = new Date().toISOString();
             }
@@ -141,7 +132,6 @@ async function loadArticlesFromBackend() {
                 article.synced = false;
             }
             
-            // Save to IndexedDB
             await window.saveArticle(article);
         }
         
@@ -151,12 +141,11 @@ async function loadArticlesFromBackend() {
     } catch (error) {
         console.error('❌ Failed to load articles:', error);
         alert('⚠️ Warning: Could not load articles from server. App is offline.');
-        // Continue anyway - offline-first means app still works with cached data
+        // Continue anyway - offline-first means app still works with cached data because it is offline first
         return false;
     }
 }
 
-// Export function globally
 window.loadArticlesFromBackend = loadArticlesFromBackend;
 
 // 4. Forgot Password Logic
@@ -170,27 +159,21 @@ function logoutUser() {
 
     console.log('🚪 Terminating secure session...');
 
-    // Clear session from browser memory
     localStorage.removeItem('indiaPostSession');
 
-    // Use our global SPA router to go back to the login screen
     window.showSection('login-section');
-     // 1. Hide all main content sections
+     // . Hide all main content sections
     document.querySelectorAll('main').forEach(section => {
         section.style.display = 'none';
     });
 
     
-    // Explicitly hide the navigation bar
     const nav = document.getElementById('nav-shell');
     if (nav) nav.style.display = 'none';
 
-
-    // Make sure the login wrapper flexes properly 
     const loginWrapper = document.getElementById('login-section');
     if (loginWrapper) loginWrapper.style.display = 'block';
 
-    // Remove the popup element completely from the DOM
     const popup = document.getElementById('profilePopup');
     if (popup) {
          popup.style.display = 'none';
@@ -198,7 +181,6 @@ function logoutUser() {
         console.log("🧹 Profile popup memory cleared");
     }
 
-    // Clear the form fields
     const loginForm = document.getElementById('loginForm');
     if (loginForm) loginForm.reset();
 

@@ -5,7 +5,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// Define the data directory path and create it if missing
 const DATA_DIR = path.join(__dirname, 'data');
 
 if (!fs.existsSync(DATA_DIR)) {
@@ -30,7 +29,6 @@ function readJsonFile(fileName) {
 function writeJsonFile(fileName, data) {
     const filePath = path.join(DATA_DIR, fileName);
     try {
-        // Redundant check just in case the folder was deleted while the server was running
         if (!fs.existsSync(DATA_DIR)) {
             fs.mkdirSync(DATA_DIR, { recursive: true });
         }

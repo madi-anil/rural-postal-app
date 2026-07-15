@@ -42,7 +42,6 @@ function openDB() {
     });
 }
 
-// Called once by app.js on startup.
 async function initDB() {
     try {
         dbInstance = await openDB();
@@ -117,7 +116,7 @@ async function updateArticleStatus(id, newStatus, extra = {}) {
     });
 }
 
-// Required for Phase 5 Background Synchronization
+// Background Synchronization
 async function getUnsyncedArticles() {
     const db = dbInstance || await openDB();
     return new Promise((resolve, reject) => {
@@ -135,7 +134,7 @@ async function getUnsyncedArticles() {
     });
 }
 
-// Administrative / Cleanup function
+// Administrative  function
 async function deleteArticle(id) {
     const db = dbInstance || await openDB();
     return new Promise((resolve, reject) => {

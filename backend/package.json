@@ -14,7 +14,7 @@
     "sync",
     "json-database"
   ],
-  "author": "Gramin Dak Sevak Intern",
+  "author": "BCA Student",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.6",

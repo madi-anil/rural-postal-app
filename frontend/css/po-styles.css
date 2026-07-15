@@ -23,14 +23,15 @@
 
 @supports (height: 100dvh) {
     body {
-        min-height: 100dvh;
+        height: 100dvh;
     }
 }
 
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #f4f4f4 ;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center; /* Centers the phone frame on desktop */
@@ -44,7 +45,7 @@ body {
 /* DEFAULT FOR MOBILE PHONES: Takes up the absolute full screen */
 .main-frame {
     width: 100%;
-    height: auto;             /* Fills the absolute mobile height */
+    height: 100vh;             /* Fills the absolute mobile height */
     background: #ffffff;
     border: none;              /* No borders on a native mobile phone screen */
     border-radius: 0;          /* Clean flat design edge for phones */
@@ -61,16 +62,20 @@ body {
     body {
         display: grid;         /* Grid engine centers the frame on laptop monitors */
         place-items: center;
-        padding: 40px 0;
+        padding: 20px ;
+        background-color: #f0f2f5;
+         height: 100vh;
+        overflow: hidden;
     }
+    
 
     .main-frame {
-        max-width: 420px;      /* Locks the frame width tightly on laptops */
-        height: 85vh;          /* Caps the vertical height inside browser windows */
-        max-height: 850px;     /* Prevents stretching on ultra-tall screens */
-        border: 4px solid var(--secondary); /* Clean phone outline bezel effect */
-        border-radius: 32px;   /* Beautiful rounded corner look for laptops */
-        box-shadow: 0 15px 40px rgba(0,0,0,0.18); /* Floating canvas shadow depth */
+        max-width: 1000px;      /* Locks the frame width tightly on laptops */
+        height: 92vh;          /* Caps the vertical height inside browser windows */
+        max-height: 950px;     /* Prevents stretching on ultra-tall screens */
+        border: 1px solid var(--secondary); /* Clean phone outline bezel effect */
+        border-radius: 20px;   /* Beautiful rounded corner look for laptops */
+        box-shadow: 0 12px 30px rgba(0,0,0,0.12); /* Floating canvas shadow depth */
     }
 }
 
@@ -78,8 +83,10 @@ body {
 main {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     width: 100%;
-    min-height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
 }
 
 main::-webkit-scrollbar {
@@ -88,12 +95,14 @@ main::-webkit-scrollbar {
 
 @media(min-width : 768px){
     main{
-        max-width: 420px;
+        max-width: 100%;
         width: 100%;
-        margin: 0 auto;
+        margin: 0 auto; 
+}
+ main.dashboard {
+        padding: 20px 20px 80px 20px; /* Enhanced padding on tablet and desktop */
     }
 }
-
 
 /* =========================================================
    3. LOGIN INTERFACE
@@ -412,21 +421,23 @@ main::-webkit-scrollbar {
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Advanced responsive fluid grid */
     gap: 15px;
     width: 100%;
-    padding: 0 15px;
+    padding: 0;
     margin: 0 auto;
 }
  /* BOX HERO SECTION */
 .hero-section {
-    width: 100vw;
-    height: auto; /* FIXED: Removed min-height: 250px so it only takes the space it needs */
+    width: auto;
+    height: auto; 
     background-size: cover;
     background-position: center;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1px 1px; /* FIXED: Shrunk outer padding */
+    padding: 0px; 
     margin-bottom: 15px;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .hero-overlay {
@@ -435,11 +446,12 @@ main::-webkit-scrollbar {
     border-radius: 15px;
     backdrop-filter: blur(8px);
     width: 100%;
-    max-width: 600px;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px; /* FIXED: Tighter spacing between TOTAL box and the 3 bottom boxes */
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    box-sizing: border-box;
 }
 
 /* TOP LONG BOX (TOTAL) */
@@ -451,6 +463,7 @@ main::-webkit-scrollbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-sizing: border-box;
 }
 
 .hero-title {
@@ -470,27 +483,35 @@ main::-webkit-scrollbar {
 /* BOTTOM 3 BOXES GRID */
 .hero-3-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Prevent grid column stretching */
     gap: 10px;
+    box-sizing: border-box;
 }
 
 .hero-mini-box {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    padding: 10px 5px; /* FIXED: Hugs the text much closer now */
+    padding: 10px 4px; /* FIXED: Hugs the text much closer now */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+    min-width: 0; /* Let grid item shrink below content size */
+    overflow: hidden; /* Prevent text overflow */
+    box-sizing: border-box;
 }
 
 .mini-title {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 600;
     color: #cbd5e1;
     text-transform: uppercase;
     margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Graceful cutoff on extreme devices */
+    width: 100%;
 }
 
 .mini-number {
@@ -498,6 +519,23 @@ main::-webkit-scrollbar {
     font-weight: 800;
 }
 
+
+/* ==========================================
+   DASHBOARD BUTTONS CONTAINER (Responsive Grid)
+   ========================================== */
+.dashboard-buttons-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+@media (min-width: 600px) {
+    .dashboard-buttons-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
 /* =========================================================
    7. ACKNOWLEDGE & DELIVERY CARDS
 ========================================================= */
@@ -528,7 +566,16 @@ main::-webkit-scrollbar {
     flex-direction: column;
     gap: 12px;
     margin-bottom: 20px;
+    padding: 10px;
 }
+@media (min-width: 768px) {
+    .delivery-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
 
 .delivery-card {
     background: white;

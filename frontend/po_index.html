@@ -55,7 +55,7 @@
                 <p>Developed By: 24923030057</p>
             </footer>
     </main>
-    </div>
+    
 
         
 
@@ -106,14 +106,15 @@
              
                 <div class="dashboard-grid">
                     <div id="network-status" class="network-status">🟢 ONLINE</div>
-                      <div>
+                    
+                        <div class="dashboard-buttons-container">
 
                     <button class="nav-button" id="acknowledgeBtn"><i class="fa fa-check-circle"></i> Acknowledge</button>
                     <button class="nav-button" id="dashboardDeliveryBtn"><i class="fas fa-dolly"></i> Delivery</button>
                     <button class="nav-button" id="pendingBtn"><i class="fa fa-clock"></i> Pending</button>
                     <button class="nav-button" id="reportBtn"><i class="fa fa-file-alt"></i> Report</button>
                 </div>
-            </div>
+            
             </div>
         </main>
         
@@ -206,7 +207,7 @@
     <div id="modalBackdrop" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1999;"></div>
     
     <!-- Delivery Modal with Canvas Signature Pad -->
-    <div id="deliveryFormModal" style="display:none; position:fixed; top:10%; left:5%; width:90%; background:white; padding:20px; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.4); z-index:2000; overflow-y:auto; max-height:80vh;">
+    <div id="deliveryFormModal" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); width:90%; max-width:550px; background:white; padding:20px; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.4); z-index:2000; overflow-y:auto; max-height:80vh;">
         <h3 id="modalTitle" style="margin-top:0; color:#bd0000;">Action Required</h3>
         
         <!-- Dynamic Inputs for "Delivered" -->
@@ -279,7 +280,7 @@
                 </button>
             </div>
         </main>
-
+    </div>
     <!-- ========================================== -->
     <!-- STRICT JAVASCRIPT LOADING ORDER            -->
     <!-- Database -> Modules -> Controller          -->
@@ -293,6 +294,6 @@
     <script src="js/tracking.js"></script>
     <script src="js/report.js"></script>
     <script src="js/sync.js"></script>
-    <!-- <script src="js/app.js"></script> -->
+    
 </body>
 </html>

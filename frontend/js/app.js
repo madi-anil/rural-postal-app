@@ -1,18 +1,17 @@
 // ==========================================
-// app.js — Master Orchestrator
+// app.js — 
 // Coordinates navigation and initializes all modules
 // ==========================================
 
 // ── 1. Global Utility Functions & Routing ─────────────────────────────
 
-// Safety Net: Explicit function to return to the Dashboard
 function returnToHome() {
     console.log("🛡️ Safety Net: Returning to Dashboard");
     showSection('dashboard');
 }
 window.returnToHome = returnToHome;
 
-// Centralized Master Router (SPA Navigation)
+
 function showSection(sectionId) {
     // Hide all main sections EXCEPT the navigation bar
     document.querySelectorAll('main').forEach(section => {
@@ -34,12 +33,10 @@ function showSection(sectionId) {
 }
 window.showSection = showSection;
 
-// Global Event: Close profile popup when clicking outside of it
 document.addEventListener('click', (e) => {
     const popup = document.getElementById('profilePopup');
     const profileIcon = document.getElementById('profileIcon');
     
-    // Ensure we don't close it if they are clicking the icon to open it
     if (popup && profileIcon && !profileIcon.contains(e.target) && !popup.contains(e.target)) {
         popup.style.display = 'none';
     }
@@ -71,28 +68,26 @@ function updateNetworkStatus() {
     }
 }
 
-// Listen for network changes globally
+
 window.addEventListener('online', updateNetworkStatus);
 window.addEventListener('offline', updateNetworkStatus);
 
 
 // ── 3. Global Event Binding & Initialization ───────────────────────
 
-// NOTICE: We use 'async' here so we can wait for the database!
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("App initializing... [System Ready -step 1-]");
 
-    // 3.1 Initialize Database and Seed Data
-    // (This MUST happen before the UI tries to load data)
+    // Initialize Database and Seed Data
+    // (This MUST happen before the UI tries to load data when login  )
     if (typeof window.initDB === 'function') {
-        await window.initDB();       // Opens the IndexedDB
+        await window.initDB();      
         if (typeof window.seedDatabase === 'function') {
-            await window.seedDatabase(); // Adds mock articles if empty
+            await window.seedDatabase(); 
         }
     }
 
     // 3.2 Initialize All Feature Modules
-    // This executes each module's setup sequence safely
     if (typeof window.initLogin === 'function') window.initLogin();
     if (typeof window.initDashboard === 'function') window.initDashboard();
     if (typeof window.initAcknowledge === 'function') window.initAcknowledge(); 
@@ -105,8 +100,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const navMap = {
         'homeBtn': 'dashboard',
         'trackingBtn': 'tracking-section',
-        'navDeliveryBtn': 'delivery-section',        // Matches Unique ID 1
-        'dashboardDeliveryBtn': 'delivery-section',  // Matches Unique ID 2
+        'navDeliveryBtn': 'delivery-section',        
+        'dashboardDeliveryBtn': 'delivery-section',  
         'acknowledgeBtn': 'acknowledgement-section',
         'pendingBtn': 'delivery-section',
         'reportBtn': 'report-section',
@@ -114,15 +109,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         'backFromReportBtn': 'dashboard'             
     };
 
-    // Auto-bind all buttons and trigger their specific UI functions
+   
     Object.keys(navMap).forEach(btnId => {
         const btn = document.getElementById(btnId);
         if (btn) {
             btn.addEventListener('click', async () => {
-                // 1. Switch the screen
+               
                 showSection(navMap[btnId]);
 
-                 // 2. Trigger the correct UI refresh based on the button clicked
+                
                  if (btnId === 'navDeliveryBtn' || btnId === 'dashboardDeliveryBtn' || btnId === 'pendingBtn') {
                     if (typeof window.renderDeliveryList === 'function') {
                         await window.renderDeliveryList();
@@ -143,7 +138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         alert("Contact your postmaster or supervisor.");
     });
 
-    // Set initial network status on load
+    // network status on load
     updateNetworkStatus();
 
     await updateDashboardStats();

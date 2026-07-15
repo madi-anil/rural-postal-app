@@ -1,20 +1,16 @@
 // ==========================================
-// Acknowledge.js — ACKNOWLEDGE MODULE (Phase 4/5 Optimized)
+// Acknowledge.js — ACKNOWLEDGE MODULE
 // Handles article ingestion and local IndexedDB saving
 // ==========================================
-
-// SAFE MODULE FLAG (prevents redeclaration issues across reloads)
 window.isAcknowledgeInitialized = window.isAcknowledgeInitialized || false;
 
 function initAcknowledge() {
 
-    // Prevent duplicate initialization
     if (window.isAcknowledgeInitialized) return;
     window.isAcknowledgeInitialized = true;
 
     console.log("[Module] Acknowledge Initialized");
 
-    // ── ROOT SAFE BINDING ─────────────────────────────
     const root = document.querySelector(".main-frame");
 
     root?.addEventListener("click", (e) => {
@@ -73,7 +69,7 @@ function initAcknowledge() {
             const popup = document.createElement('div');
             popup.className = 'support-popup';
 
-          // Calculate real article count
+          // Calculate real article count got from server
             const allArticles = await window.getAllArticles();
             const totalCount = allArticles.length;
 
@@ -85,7 +81,6 @@ function initAcknowledge() {
                 </div>
             `;
 
-    
             const mainFrame = document.querySelector('.main-frame');
 
             if (mainFrame) {
@@ -94,7 +89,6 @@ function initAcknowledge() {
                 document.body.appendChild(popup);
             }
 
-            // ESC key closes popup (SAFE bind)
             const escHandler = (e) => {
                 if (e.key === "Escape") {
                     popup.remove();
@@ -111,28 +105,27 @@ function initAcknowledge() {
 
                     popup.remove();
                     document.removeEventListener("keydown", escHandler);
-// Get REAL articles from IndexedDB (not hardcoded)
-const newArticles = await window.getAllArticles();
 
-if (newArticles.length === 0) {
-    alert("❌ No articles to acknowledge. Contact your postmaster.");
-    popup.remove();
-    return;
-}
+           // Get REAL articles from IndexedDB 
+          const newArticles = await window.getAllArticles();
 
-// Mark all as status "Pending" if not already set
-newArticles.forEach(article => {
-    if (!article.status) article.status = 'Pending';
-    if (!article.synced) article.synced = false;
-    if (!article.client_timestamp) {
-        article.client_timestamp = new Date().toISOString();
-    }
-});
+           if (newArticles.length === 0) {
+            alert("❌ No articles to acknowledge. Contact your postmaster.");
+            popup.remove();
+            return;
+            }
+
+           newArticles.forEach(article => {
+          if (!article.status) article.status = 'Pending';
+          if (!article.synced) article.synced = false;
+          if (!article.client_timestamp) {
+             article.client_timestamp = new Date().toISOString();
+            }
+          });
                     try {
-                        // Save articles
-for (const article of newArticles) {
-    if (window.saveArticle) {
-        await window.saveArticle(article);
+                         for (const article of newArticles) {
+                           if (window.saveArticle) {
+                                     await window.saveArticle(article);
     }
 }
 
@@ -141,7 +134,7 @@ if (typeof window.updateDashboardStats === "function") {
     await window.updateDashboardStats();
 }
 
-// Reset UI
+
 const spans = document.querySelectorAll('#acknowledgement-section .stat-card span');
 spans.forEach(span => span.innerText = "0");
 
@@ -152,7 +145,7 @@ catSpans.forEach(span => span.innerText = "0");
 acceptBtn.innerText = "Accept Articles";
 acceptBtn.style.backgroundColor = "";
 
-// One success message
+//  success message 
 alert("Articles Acknowledged Successfully & Saved Offline!");
 
 // Return to dashboard
@@ -168,5 +161,4 @@ window.showSection("dashboard");
     }
 }
 
-// Global export
 window.initAcknowledge = initAcknowledge;
